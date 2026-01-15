@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniFinder AI | Tu futuro empieza aquí</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- VARIABLES DE DISEÑO --- */
+        :root {
+            --primary: #4F46E5;       /* Indigo moderno */
+            --primary-dark: #3730A3;
+            --accent: #F59E0B;        /* Ámbar para llamadas a la acción */
+            --text-main: #1F2937;
+            --text-light: #6B7280;
+            --white: #ffffff;
+            --glass: rgba(255, 255, 255, 0.75);
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            
+            /* --- FONDO ANIMADO --- */
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        /* Animación del fondo */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Capa blanca semitransparente para legibilidad */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            z-index: -1;
+        }
+
+        /* --- NAVBAR GLASSMORPHISM --- */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--glass);
+            backdrop-filter: blur(12px); /* Efecto cristal */
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .nav-links { display: flex; align-items: center; }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-main);
+            margin-left: 20px;
+            font-weight: 600;
+            transition: 0.3s;
+            font-size: 0.95rem;
+        }
+        .nav-links a:hover { color: var(--primary); }
+        .nav-btn {
+            background: var(--primary);
+            color: white !important;
+            padding: 8px 20px;
+            border-radius: 50px;
+            transition: 0.3s;
+        }
+        .nav-btn:hover { background: var(--primary-dark); transform: scale(1.05); }
+
+        /* --- HEADER --- */
+        header {
+            text-align: center;
+            padding: 4rem 1rem 3rem 1rem;
+        }
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #4F46E5, #9333EA);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+        header p { font-size: 1.2rem; color: var(--text-light); }
+
+        /* --- MAIN --- */
+        main {
+            flex: 1;
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding-bottom: 60px;
+        }
+
+        /* --- BUSCADOR --- */
+        .search-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 24px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+        
+        .search-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 0.5fr auto;
+            gap: 15px;
+            align-items: start;
+        }
+        
+        .filter-wrapper {
+            grid-column: 1 / -1;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            background: #F3F4F6;
+            padding: 10px 15px;
+            border-radius: 10px;
+            width: fit-content;
+        }
+        input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary); cursor: pointer; }
+
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            font-size: 1rem;
+            outline: none;
+            background: #F9FAFB;
+            font-family: inherit;
+            transition: 0.3s;
+        }
+        input:focus { border-color: var(--primary); background: white; box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); }
+        
+        #userNota { text-align: center; font-weight: 700; color: var(--primary); }
+
+        button.search-btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 16px 30px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        button.search-btn:hover { background-color: #D97706; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(245, 158, 11, 0.4); }
+
+        /* --- RESULTADOS --- */
+        #grid-resultados {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .uni-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        .uni-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
+        
+        .card-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 20px;
+        }
+        .card-header h3 { font-size: 1.2rem; margin-bottom: 5px; }
+        .badge { background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; backdrop-filter: blur(4px); }
+        
+        .card-body { padding: 25px; flex: 1; display: flex; flex-direction: column; }
+        
+        .nota-corte {
+            background-color: #EEF2FF;
+            color: var(--primary);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #C7D2FE;
+        }
+        
+        .motivo { 
+            margin-top: auto !important; 
+            padding-top: 15px; 
+            border-top: 1px dashed #E5E7EB; 
+            font-style: italic; 
+            font-size: 0.9rem; 
+            color: #4B5563; 
+            margin-bottom: 20px; 
+        }
+        
+        .acciones { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: auto; }
+        
+        .btn-visitar, .btn-plan {
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-align: center;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.2s;
+            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+        }
+        .btn-visitar { background: var(--text-main); color: white; }
+        .btn-visitar:hover { background: black; }
+        
+        .btn-plan { background: #E0F2FE; color: #0284C7; border: none; font-family: inherit; }
+        .btn-plan:hover { background: #BAE6FD; }
+
+        /* --- EXTRAS --- */
+        #seccion-similares { 
+            margin-top: 50px; padding: 30px; 
+            background: white; border-radius: 20px; 
+            text-align: center; 
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #E5E7EB;
+            display: none;
+        }
+        .tags-container { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 20px; }
+        .tag-similar { 
+            background: #ECFDF5; color: #059669; 
+            padding: 10px 20px; border-radius: 50px; 
+            font-weight: 600; border: 1px solid #D1FAE5; 
+            cursor: pointer; transition: 0.2s; 
+        }
+        .tag-similar:hover { background: #10B981; color: white; transform: scale(1.05); }
+
+        .no-results {
+            text-align: center; padding: 40px;
+            background: #FEF2F2; border-radius: 20px;
+            border: 2px dashed #FECACA; color: #991B1B;
+            grid-column: 1 / -1; display: none; margin-top: 30px;
+        }
+
+        /* --- FOOTER MEJORADO --- */
+        footer {
+            background: #111827;
+            color: #9CA3AF;
+            padding: 4rem 1rem;
+            margin-top: auto;
+        }
+        .footer-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+        }
+        .footer-col h4 { color: white; margin-bottom: 20px; font-size: 1.2rem; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 10px; }
+        .footer-col a { color: #9CA3AF; text-decoration: none; transition: 0.3s; }
+        .footer-col a:hover { color: white; padding-left: 5px; }
+        
+        .social-links { display: flex; gap: 15px; margin-top: 10px; }
+        .social-links a { 
+            width: 40px; height: 40px; 
+            background: #374151; display: flex; 
+            align-items: center; justify-content: center; 
+            border-radius: 50%; color: white; 
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .social-links a:hover { background: var(--primary); transform: translateY(-3px); }
+
+        .copyright {
+            text-align: center;
+            padding-top: 40px;
+            margin-top: 40px;
+            border-top: 1px solid #374151;
+            font-size: 0.9rem;
+        }
+
+        /* --- LOADER & MODAL --- */
+        .loader { display: none; margin: 30px auto; border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        #caja-consejo { 
+            background: #EFF6FF; border-left: 5px solid var(--primary); 
+            padding: 20px; border-radius: 10px; margin-top: 30px; 
+            display: none; color: #1E40AF; font-weight: 500;
+        }
+
+        /* Modal Styles */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
+        .modal-content { background: white; padding: 30px; border-radius: 20px; width: 90%; max-width: 500px; animation: slideUp 0.3s ease; position: relative; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
+        @keyframes slideUp { from {transform: translateY(20px); opacity: 0;} to {transform: translateY(0); opacity: 1;} }
+        .close-modal { position: absolute; top: 20px; right: 20px; font-size: 24px; cursor: pointer; color: #9CA3AF; transition: 0.2s; }
+        .close-modal:hover { color: var(--text-main); }
+        .modal-list li { padding: 12px; border-bottom: 1px solid #F3F4F6; display: flex; align-items: center; gap: 10px; }
+
+        @media (max-width: 768px) { 
+            .search-grid { grid-template-columns: 1fr; } 
+            .nav-links { display: none; } /* Ocultamos links en movil para simplificar */
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">
+            <i class="fas fa-brain"></i> UniFinder <span style="font-size: 0.7rem; background: #EEF2FF; padding: 2px 8px; border-radius: 10px; color: var(--primary); margin-left: 5px; border: 1px solid #C7D2FE;">AI BETA</span>
+        </div>
+        <div class="nav-links">
+            <a href="#">Inicio</a>
+            <a href="#">Cómo funciona</a>
+            <a href="#" class="nav-btn">Contacto</a>
+        </div>
+    </nav>
+
+    <header>
+        <h1>Descubre tu Futuro Universitario</h1>
+        <p>Inteligencia Artificial para encontrar tu grado ideal, notas de corte y planes de estudio.</p>
+    </header>
+
+    <main>
+        <div class="search-container">
+            <div class="search-grid">
+                <input type="text" id="userLocation" placeholder="📍 ¿Dónde? (Ej: Madrid)">
+                <input type="text" id="userInput" placeholder="🎓 ¿Qué te gusta estudiar?">
+                <input type="number" id="userNota" placeholder="🏆 Tu Nota" step="0.1" min="0" max="14">
+                
+                <button onclick="buscar()" class="search-btn" id="btnBuscar">
+                    <i class="fas fa-search"></i> Buscar
+                </button>
+                
+                <div class="filter-wrapper">
+                    <input type="checkbox" id="checkPublicas">
+                    <label for="checkPublicas">Ver solo Universidades Públicas</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="loader" id="loader"></div>
+        <div id="caja-consejo"><i class="fas fa-robot"></i> <span id="texto-consejo"></span></div>
+        
+        <div id="grid-resultados"></div>
+        
+        <div id="msg-no-results" class="no-results">
+            <i class="fas fa-search-minus" style="font-size: 3rem; margin-bottom: 15px; opacity: 0.5;"></i>
+            <h3>No hemos encontrado coincidencias exactas</h3>
+            <p>La nota de corte es muy exigente o no hay esa carrera en la ciudad. ¡Mira estas alternativas!</p>
+        </div>
+
+        <div id="seccion-similares">
+            <h3>💡 Carreras Relacionadas</h3>
+            <p style="color: #6B7280; margin-bottom: 15px;">Basado en tu perfil y nota, te sugerimos:</p>
+            <div class="tags-container" id="lista-similares"></div>
+        </div>
+
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>UniFinder AI</h4>
+                <p style="font-size: 0.9rem; line-height: 1.6;">Tu asistente inteligente para tomar una de las decisiones más importantes de tu vida. Datos actualizados y recomendaciones personalizadas.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Explora</h4>
+                <ul>
+                    <li><a href="#">Buscar Grados</a></li>
+                    <li><a href="#">Calculadora de Notas</a></li>
+                    <li><a href="#">Universidades Top</a></li>
+                    <li><a href="#">Blog Estudiantil</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Privacidad</a></li>
+                    <li><a href="#">Términos de uso</a></li>
+                    <li><a href="#">Cookies</a></li>
+                    <li><a href="#">Contacto</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 UniFinder AI - Desarrollado con tecnología Google Gemini.</p>
+        </div>
+    </footer>
+
+    <div class="modal-overlay" id="modalPlan">
+        <div class="modal-content">
+            <span class="close-modal" onclick="cerrarModal()">&times;</span>
+            <h3 style="color: var(--primary); font-size: 1.5rem;" id="modal-uni">Universidad</h3>
+            <span style="color: #6B7280; display: block; margin-bottom: 20px;" id="modal-grado">Grado</span>
+            <ul class="modal-list" id="modal-asignaturas"></ul>
+        </div>
+    </div>
+
+    <script>
+        async function buscar() {
+            const input = document.getElementById('userInput').value;
+            const location = document.getElementById('userLocation').value;
+            const nota = document.getElementById('userNota').value;
+            const soloPublicas = document.getElementById('checkPublicas').checked;
+
+            const loader = document.getElementById('loader');
+            const cajaConsejo = document.getElementById('caja-consejo');
+            const grid = document.getElementById('grid-resultados');
+            const seccionSimilares = document.getElementById('seccion-similares');
+            const msgNoResults = document.getElementById('msg-no-results');
+            const btn = document.getElementById('btnBuscar');
+
+            if (!input) return alert("Por favor escribe qué te gusta.");
+
+            // Resetear UI
+            cajaConsejo.style.display = 'none';
+            seccionSimilares.style.display = 'none';
+            msgNoResults.style.display = 'none';
+            grid.innerHTML = '';
+            loader.style.display = 'block';
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Buscando...';
+
+            try {
+                const response = await fetch('http://127.0.0.1:5000/recomendar', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        interes: input, 
+                        ciudad: location,
+                        solo_publicas: soloPublicas,
+                        nota_usuario: nota ? parseFloat(nota) : null
+                    })
+                });
+
+                const data = await response.json();
+
+                // 1. Mostrar Consejo
+                if (data.consejo) {
+                    document.getElementById('texto-consejo').innerText = data.consejo;
+                    cajaConsejo.style.display = 'block';
+                }
+
+                // 2. Mostrar Tarjetas o Mensaje de Error
+                if (data.html_tarjetas && data.html_tarjetas.trim() !== "") {
+                    grid.innerHTML = data.html_tarjetas;
+                } else {
+                    msgNoResults.style.display = 'block';
+                }
+
+                // 3. Mostrar Carreras Similares
+                if (data.carreras_similares && data.carreras_similares.length > 0) {
+                    const container = document.getElementById('lista-similares');
+                    container.innerHTML = '';
+                    
+                    data.carreras_similares.forEach(carrera => {
+                        const tag = document.createElement('div');
+                        tag.className = 'tag-similar';
+                        tag.innerText = carrera;
+                        tag.onclick = () => {
+                            document.getElementById('userInput').value = carrera;
+                            buscar();
+                        };
+                        container.appendChild(tag);
+                    });
+                    seccionSimilares.style.display = 'block';
+                }
+
+            } catch (error) {
+                console.error(error);
+                alert("Error de conexión. Revisa app.py.");
+            } finally {
+                loader.style.display = 'none';
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-search"></i> Buscar';
+            }
+        }
+
+        function verPlan(uni, grado, asignaturasString) {
+            document.getElementById('modal-uni').innerText = uni;
+            document.getElementById('modal-grado').innerText = grado;
+            const lista = document.getElementById('modal-asignaturas');
+            lista.innerHTML = ''; 
+            const asignaturas = asignaturasString.split(',');
+            asignaturas.forEach(asig => {
+                const li = document.createElement('li');
+                li.innerHTML = `<i class="fas fa-book" style="color:#F59E0B"></i> ${asig.trim()}`;
+                lista.appendChild(li);
+            });
+            document.getElementById('modalPlan').style.display = 'flex';
+        }
+
+        function cerrarModal() {
+            document.getElementById('modalPlan').style.display = 'none';
+        }
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('modalPlan')) {
+                cerrarModal();
+            }
+        }
+    </script>
+</body>
+</html>
